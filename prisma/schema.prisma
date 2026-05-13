@@ -7,31 +7,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// comando: npx prisma db push "cria tabela"
+// comando: npx prisma db pull "puxa tabela"
+
 enum Role {
   USER
   ADMIN
 }
-
 model User {
-  id        Int       @id @default(autoincrement())
-  name      String
-  email     String    @unique 
-  status    Boolean   @default(true)
-  role      Role      @default(USER)
-  creatAt   DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  posts     Post[]
-
-  @@map("users") // mapeia a   
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  status Boolean @default(true)
+  role Role @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts Post[]
+  @@map("users")
 }
 
 model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  subtitle  String?
-  content   String
-  userId    Int     @map("user_id")
-  user      User    @relation(fields: [userId], references: [id])
-
-  @@map("posts") // mapeia a tabela para "posts" no banco de dados
+  id  Int @id @default(autoincrement())
+  title String
+  subtitle String?
+  content String
+  userId Int  @map("user_id")
+  user User @relation(fields: [userId], references: [id])
+  @@map("posts") //mapeia como posts no bd
 }
